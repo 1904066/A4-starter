@@ -27,3 +27,4 @@
 5. wait for 2 secondes
 6. goto settings, select `add contact` enter "Bob"
 7. click Bob on the contact frame, local message is listed here
+8. Send a message to Alice- should not be able to send

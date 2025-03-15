@@ -35,16 +35,6 @@ from ds_messenger import DirectMessage, DirectMessenger
 # test_send(k_send, k_recieve, 'Kiara', '56789')
 
 
-def test_connect_fail():
-    """
-    docustring
-    """
-    my_messenger = DirectMessenger('127.0.0.1', 'Kiara', 'wrong password')
-    response = my_messenger.get_response()
-    assert response.type == 'error'
-    print('test 1 passed!')
-
-
 def test_connect_success():
     """
     docustring
@@ -53,6 +43,16 @@ def test_connect_success():
     response = my_messenger.get_response()
     assert response.type == 'ok'
     print('test 2 passed!')
+
+
+def test_connect_fail():
+    """
+    docustring
+    """
+    my_messenger = DirectMessenger('127.0.0.1', 'Kiara', 'wrong password')
+    response = my_messenger.get_response()
+    assert response.type == 'error'
+    print('test 1 passed!')
 
 
 def test_send_fail():
@@ -69,6 +69,7 @@ def test_send_success():
     docustring
     """
     my_messenger = DirectMessenger('127.0.0.1', 'Kiara', '56789')
+    sid_messenger = DirectMessenger('127.0.0.1', 'Sid', '1234')
     assert my_messenger.send('hello', 'Sid') is True
     print('test 4 passed!')
 
@@ -116,18 +117,18 @@ def test_retrieve_all():
     print('test 6 passed!')
 
 
-def unit_test():
-    """
-    docustring
-    """
-    test_connect_fail()
-    test_connect_success()
-    test_send_fail()
-    test_send_success()
-    test_retrieve_new()
-    test_retrieve_all()
-    print('all tests passed!')
+# def unit_test():
+#     """
+#     docustring
+#     """
+#     test_connect_fail()
+#     test_connect_success()
+#     test_send_fail()
+#     test_send_success()
+#     test_retrieve_new()
+#     test_retrieve_all()
+#     print('all tests passed!')
 
 
-if __name__ == "__main__":
-    unit_test()
+# if __name__ == "__main__":
+#     unit_test()

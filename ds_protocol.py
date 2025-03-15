@@ -25,6 +25,8 @@ def extract_json(json_msg: str) -> DataTuple:
     keys with actual DSP protocol keys
     '''
     message = None
+    response_type = None
+    token = None
     try:
         json_obj = json.loads(json_msg)
         # foo = json_obj['foo']

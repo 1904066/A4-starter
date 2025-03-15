@@ -200,8 +200,10 @@ class Body(tk.Frame):
                                  expand=True, padx=0, pady=0)
 
         self.entry_editor = tk.Text(editor_frame, width=0, height=5)
-        self.entry_editor.tag_configure('entry-right', justify='right')
-        self.entry_editor.tag_configure('entry-left', justify='left')
+        self.entry_editor.tag_configure('entry-right', justify='right',
+                                        foreground='green')
+        self.entry_editor.tag_configure('entry-left', justify='left',
+                                        foreground='pink')
         self.entry_editor.pack(fill=tk.BOTH, side=tk.LEFT,
                                expand=True, padx=0, pady=0)
 
@@ -337,7 +339,9 @@ class MainApp(tk.Frame):
         docustring
         """
         self.recipient = recipient
-        self.check_new()
+        # self.check_new()
+        if self.service is None:
+            self.configure_server()
 
     def configure_server(self):
         """
@@ -370,24 +374,30 @@ class MainApp(tk.Frame):
         # temp = DirectMessenger(self.server, self.username, self.password)
         # temp.send(message, self.recipient)
         # temp.retrieve_new()
-        temp = LocalService(self.server, self.username, self.password)
-        temp.refresh(self.recipient, message)
-        self.check_new()
+        # temp = LocalService(self.server, self.username, self.password)
+        # temp.refresh(self.recipient, message)
+        # self.check_new()
+        if self.service is not None:
+            self.service.refresh(self.recipient, message)
+        self.body.set_text_entry('')
 
     def check_new(self):
         """
         docustring
         """
         # You must implement this!
-        self.service = LocalService(self.server, self.username, self.password)
-        self.service.connect()
-        if self.service.airmessage is not None:
-            self.direct_message = self.service.airmessage
-        else:
-            self.local_message = self.service.local
+        # self.service = LocalService(self.server,
+        # self.username, self.password)
+        # self.service.connect()
+        # if self.service.airmessage is not None:
+        #     self.direct_message = self.service.airmessage
+        # else:
+        #     self.local_message = self.service.local
         self.body.delete_message()
         if self.direct_message is not None:
             print('Using server message')
+            self.service.connect()
+            self.direct_message = self.service.airmessage
             for item in reversed(self.direct_message):
                 if ('from::' in item.recipient
                         and item.recipient[6:] == self.recipient):
@@ -404,7 +414,8 @@ class MainApp(tk.Frame):
                 elif item['friend'] == self.recipient:
                     self.body.insert_user_message(item['entry'])
         else:
-            print('ERROR')
+            print('Server not connected!')
+        self.after(2000, self.check_new)
 
     def _draw(self):
         # Build a menu and add it to the root frame.

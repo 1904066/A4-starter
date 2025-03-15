@@ -252,8 +252,7 @@ class Profile:
                                    " process the DSU file."
                                    ) from ex
         else:
-            raise DsuFileError
-        ("Invalid DSU file path or type")
+            raise DsuFileError("Invalid DSU file path or type")
 
     # """
 
